@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proyecto 1 - Diana Moreno y Miguel Jarramillo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+        body{
+            background-color: #E08C1C;
+            font-family: 'Garamond', serif;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        canvas {
+            border: 5px groove #c57463;
+            background: #FFFF;
+        }
+
+        button{
+            border-color: white;
+            color: white;
+            border-style:  solid;
+            text-align: center;
+            font-size: 30px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .button1{
+            width: 50px;
+            height: 50px;
+            padding: 2px 4px;
+            background-color: red;
+        }
+
+        .button2{
+            position: absolute;
+            width: 53px;
+            height: 50px;
+            padding: 2px 4px;
+            background-color: green;
+        }
+        .button3{
+            width: 50px;
+            height: 50px;
+            padding: 2px 4px;
+            background-color: blue;  
+        }
+
+        .button4{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            padding: 2px 4px;
+            background-color: gold;  
+        }
+        .button5{
+            background-color: grey; 
+            font-size: 27px; 
+        }
+
+        .button1:hover,.button2:hover,.button3:hover,.button4:hover,.button5:hover {
+            background-color: rgba(224, 214, 214, 0.363);
+
+        }
+
+        #Titulo {
+            padding-top: 1px;
+        }
+
+        #Figuras {
+            position: absolute;
+            border: none;  
+            width: 180px;
+            height: 250px;
+            top: 165px;
+            right: 0px;
+            left: 0px;
+            padding-left: 10px;
+            display:block;
+        }
+
+        #Menu{
+            font-size: 30px; 
+            position: absolute;
+            top: 85px;
+            padding-left: 4px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id = "Titulo">
+    <center>
+        <h1>Proyecto 1</h1>
+        <h3>Realizado por Diana Moreno y Miguel Jaramillo</h3>
+    </center>
+    </div>
+
+    <div id = "Tablero">
+        <canvas id="canvas" width="600" height="600" Style="display:block; margin: auto;"></canvas><br>
+    </div>
+
+    <div id ="Menu">
+        <h3>Figuras</h3>
+        </div>
+
+    <div id ="Figuras">
+        <button class="button1" onclick="Triangulo()">
+            ◺
+        </button>
+        <button class="button2" onclick="Trapecio()">
+            ⏢
+        </button>
+        <br><button class="button3" onclick="Rectangulo()">
+            ▭
+        </button>
+        <button class="button4" onclick="Rombo()">
+            ⬨
+        </button><br>
+        <button class="button5" onclick="dibujar()">
+            Rellenar
+        </button><br>
+    </div>
+
+    <script>
+        //Creacion del canva
+        var canvas=document.getElementById('canvas');
+        var ctx=canvas.getContext('2d');
+
+        function Triangulo(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imgData.data;
+            linea(200, 400, 400, 400);//Base
+            lineb(200, 100, 400, 400); //D
+            linec(200, 100, 200, 400);// I
+
+            ctx.putImageData(imgData, 0, 0)
+
+            function setPixel(x, y) {
+                var n = (y * canvas.width + x) * 4;
+                data[n] = 0;
+                data[n + 1] = 0;
+                data[n + 2] = 0;
+                data[n + 3] = 255;
+            }
+
+            function linea(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lineb(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function linec(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+        }
+
+        function Trapecio(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imgData.data;
+
+            linea(50,  440, 550, 440); //BI
+            lineb(420, 210, 550, 440); //LD
+            linec(170, 210, 50, 440); //LI
+            lined(170, 210, 420, 210); //BS
+            ctx.putImageData(imgData, 0, 0)
+
+            function setPixel(x, y) {
+                var n = (y * canvas.width + x) * 4;
+                data[n] = 0;
+                data[n + 1] = 0;
+                data[n + 2] = 0;
+                data[n + 3] = 255;
+            }
+
+            function linea(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lineb(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function linec(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lined(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+        }
+
+        function Rectangulo(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imgData.data;
+
+            linea(120, 440, 480, 440); //BS
+            lineb(480, 210, 480, 440); //LD
+            linec(120, 210, 120, 440); //LI
+            lined(120, 210, 480, 210); //BI
+            ctx.putImageData(imgData, 0, 0)
+
+            function setPixel(x, y) {
+                var n = (y * canvas.width + x) * 4;
+                data[n] = 0;
+                data[n + 1] = 0;
+                data[n + 2] = 0;
+                data[n + 3] = 255;
+            }
+
+            function linea(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lineb(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function linec(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lined(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+        }
+
+        //Rombo
+
+        function Rombo(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imgData.data;
+
+            linea(300, 150, 400, 300); // Izquierda
+            lineb(300, 150, 200, 300); //Derecha (Arriba - abajo)
+            linec(400, 300, 300, 450); // Derecha Abajo
+            lined(200, 300, 300, 450); // Izquierda Arriba
+            ctx.putImageData(imgData, 0, 0)
+
+            function setPixel(x, y) {
+                var n = (y * canvas.width + x) * 4;
+                data[n] = 0;
+                data[n + 1] = 0;
+                data[n + 2] = 0;
+                data[n + 3] = 255;
+            }
+
+            function linea(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lineb(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function linec(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+
+            function lined(x0, y0, x1, y1) {
+                var dx = Math.abs(x1 - x0),
+                    sx = x0 < x1 ? 1 : -1;
+                var dy = Math.abs(y1 - y0),
+                    sy = y0 < y1 ? 1 : -1;
+                var err = (dx > dy ? dx : -dy) / 2;
+                while (true) {
+                    setPixel(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    var e2 = err;
+                    if (e2 > -dx) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dy) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
+            }
+        }
+
+
+        function dibujar(){
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            floodFill(299, 299, [188, 188, 188, 255]);
+
+            function getPixel(imageData, x, y) {
+            if (x < 0 || y < 0 || x >= imageData.width || y >= imageData.height) {
+                return [-1, -1, -1, -1];  
+            } else {
+                const offset = (y * imageData.width + x) * 4;
+                return imageData.data.slice(offset, offset + 4);
+            }
+            }
+
+            function setPixel(imageData, x, y, color) {
+                const offset = (y * imageData.width + x) * 4;
+                imageData.data[offset + 0] = color[0];
+                imageData.data[offset + 1] = color[1];
+                imageData.data[offset + 2] = color[2];
+                imageData.data[offset + 3] = color[0];
+            }
+
+            function colorsMatch(a, b) {
+                return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
+            }
+
+            function floodFill(x, y, fillColor) {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const targetColor = getPixel(imageData, x, y);
+            
+            if (!colorsMatch(targetColor, fillColor)) {
+            
+                const pixelsToCheck = [x, y];
+                while (pixelsToCheck.length > 0) {
+                    const y = pixelsToCheck.pop();
+                    const x = pixelsToCheck.pop();
+                    const currentColor = getPixel(imageData, x, y);
+                    if (colorsMatch(currentColor, targetColor)) {
+                        setPixel(imageData, x, y, fillColor);
+                        pixelsToCheck.push(x + 1, y);
+                        pixelsToCheck.push(x - 1, y);
+                        pixelsToCheck.push(x, y + 1);
+                        pixelsToCheck.push(x, y - 1);
+                   }
+                }
+              ctx.putImageData(imageData, 0, 0);
+            }
+         }
+      }
+    </script>
+</body>
+</html>
